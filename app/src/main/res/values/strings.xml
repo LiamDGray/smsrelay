@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OTP Sender</string>
+
+    <string name="pref_header_general">General</string>
+    <string name="pref_title_is_enabled">Enabled?</string>
+    <string name="pref_title_device_name">Device ID</string>
+    <string name="pref_title_device_key">Device Secret Key</string>
+
+    <string name="pref_header_server">Server</string>
+    <string name="pref_title_url">URL</string>
+    <string name="pref_title_sender">Filter by Sender</string>
+    <string name="pref_title_content">Filter by Content</string>
+</resources>
