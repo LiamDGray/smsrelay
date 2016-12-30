@@ -1,4 +1,4 @@
-package com.advarisk.otpsender;
+package com.advarisk.smsrelay;
 
 import android.annotation.TargetApi;
 import android.content.Context;

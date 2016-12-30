@@ -3,11 +3,11 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.advarisk.otpsender.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.advarisk.smsrelay.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="com.advarisk.otpsender.SettingsActivity$ServerPreferenceFragment"
+        android:fragment="com.advarisk.smsrelay.SettingsActivity$ServerPreferenceFragment"
         android:title="@string/pref_header_server" />
 
 </preference-headers>

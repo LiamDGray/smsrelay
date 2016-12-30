@@ -1,4 +1,4 @@
-package com.advarisk.otpsender;
+package com.advarisk.smsrelay;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
