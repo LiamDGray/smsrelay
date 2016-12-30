@@ -19,6 +19,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SmsReceiver extends BroadcastReceiver {
     @Override
@@ -33,8 +34,8 @@ public class SmsReceiver extends BroadcastReceiver {
         if (pdusArray == null || pdusArray.length == 0)
             return;
 
-        String senderFilter  = preferences.getString("sender_filter",  "").toLowerCase();
-        String contentFilter = preferences.getString("content_filter", "").toLowerCase();
+        String senderFilter  = preferences.getString("sender_filter",  "").toLowerCase(Locale.US);
+        String contentFilter = preferences.getString("content_filter", "").toLowerCase(Locale.US);
         String url           = preferences.getString("url", "");
         String deviceID      = preferences.getString("device_id", "");
         String deviceKey     = preferences.getString("device_secret_key", "");
@@ -52,10 +53,10 @@ public class SmsReceiver extends BroadcastReceiver {
             String sender  = message.getDisplayOriginatingAddress();
             String content = message.getDisplayMessageBody();
 
-            if (!senderFilter.isEmpty() && sender.toLowerCase().indexOf(senderFilter) == -1)
+            if (!senderFilter.isEmpty() && sender.toLowerCase(Locale.US).indexOf(senderFilter) == -1)
                 continue;
 
-            if (!contentFilter.isEmpty() && content.toLowerCase().indexOf(contentFilter) == -1)
+            if (!contentFilter.isEmpty() && content.toLowerCase(Locale.US).indexOf(contentFilter) == -1)
                 continue;
 
             new UploadAsyncTask(context).execute(sender, content, url, authHeader);
