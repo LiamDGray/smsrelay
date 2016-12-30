@@ -10,4 +10,8 @@
         android:fragment="com.advarisk.smsrelay.SettingsActivity$ServerPreferenceFragment"
         android:title="@string/pref_header_server" />
 
+    <header
+        android:fragment="com.advarisk.smsrelay.SettingsActivity$AboutFragment"
+        android:title="@string/pref_header_about" />
+
 </preference-headers>

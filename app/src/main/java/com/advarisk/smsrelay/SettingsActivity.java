@@ -1,12 +1,8 @@
 package com.advarisk.smsrelay;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
+import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -15,8 +11,6 @@ import android.preference.PreferenceActivity;
 import android.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
 import android.view.MenuItem;
 
 import java.util.List;
@@ -79,7 +73,8 @@ public class SettingsActivity extends PreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                || ServerPreferenceFragment.class.getName().equals(fragmentName);
+                || ServerPreferenceFragment.class.getName().equals(fragmentName)
+                || AboutFragment.class.getName().equals(fragmentName);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -115,6 +110,39 @@ public class SettingsActivity extends PreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("url"));
             bindPreferenceSummaryToValue(findPreference("sender_filter"));
             bindPreferenceSummaryToValue(findPreference("content_filter"));
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class AboutFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_about);
+            setHasOptionsMenu(true);
+
+            String version = "<unknown>";
+            try {
+                PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(
+                        getActivity().getPackageName(), 0);
+
+                version = pInfo.versionName;
+            } catch (Exception e) { }
+
+            findPreference("pref_app_name")   .setSummary(R.string.app_name);
+            findPreference("pref_app_version").setSummary(version);
+            findPreference("pref_app_license").setSummary(R.string.app_license);
+            findPreference("pref_app_website").setSummary(R.string.app_url);
         }
 
         @Override

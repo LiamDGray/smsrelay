@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="pref_app_name"
+        android:selectable="true"
+        android:persistent="false"
+        android:title="@string/pref_about_name" />
+
+    <Preference
+        android:key="pref_app_version"
+        android:selectable="true"
+        android:persistent="false"
+        android:title="@string/pref_about_version" />
+
+    <Preference
+        android:key="pref_app_license"
+        android:selectable="true"
+        android:persistent="false"
+        android:title="@string/pref_about_license" />
+
+    <Preference
+        android:key="pref_app_website"
+        android:selectable="true"
+        android:persistent="false"
+        android:title="@string/pref_about_website">
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="@string/app_url" />
+    </Preference>
+
+</PreferenceScreen>
