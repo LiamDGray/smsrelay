@@ -92,7 +92,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 HttpResponse response = client.execute(request);
                 int code = response.getStatusLine().getStatusCode();
                 if (code == 200)
-                    return "OTP from "+sender+" uploaded!";
+                    return "SMS from "+sender+" relayed to server!";
                 else if (code == 403)
                     return "Incorrect Device ID and/or Device Secret Key configured!";
             } catch (Exception e) {
