@@ -109,7 +109,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 if (code == 200)
                     return "SMS from "+sender+" relayed to server!";
                 else if (code == 403)
-                    return "Incorrect Device ID and/or Device Secret Key configured!";
+                    return "Could not relay SMS, please recheck your credentials!";
             } catch (Exception e) {
                 return "Exception: "+e.toString();
             }

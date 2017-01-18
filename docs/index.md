@@ -39,9 +39,9 @@ notifications being sent to the server.
 ## HTTP Server
 
 The HTTP server is expected to accept the configured HTTP method for the
-specified URL, and return HTTP `401` in case the credentials are incorrect.
+specified URL, and return HTTP `403` in case the credentials are incorrect.
 In case the credentials are accepted, return HTTP `200` to indicate that
-the message was accepted. The message will receive two parameters:
+the message was accepted. The server will receive two parameters:
 
 | Parameter | Description
 | --------- | ---------------
