@@ -41,17 +41,23 @@
 
     <EditTextPreference
         android:key="sender_filter"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
+        android:inputType="textFilter|textMultiLine"
+        android:lines="5"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:selectAllOnFocus="false"
         android:title="@string/pref_title_sender"
         android:dependency="is_enabled" />
 
     <EditTextPreference
         android:key="content_filter"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
+        android:inputType="textFilter|textMultiLine"
+        android:lines="5"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:selectAllOnFocus="false"
         android:title="@string/pref_title_content"
         android:dependency="is_enabled" />
 

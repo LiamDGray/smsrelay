@@ -53,14 +53,26 @@ public class SmsReceiver extends BroadcastReceiver {
             String sender  = message.getDisplayOriginatingAddress();
             String content = message.getDisplayMessageBody();
 
-            if (!senderFilter.isEmpty() && sender.toLowerCase(Locale.US).indexOf(senderFilter) == -1)
+            if (!isMatched(senderFilter.trim(), sender.toLowerCase(Locale.US)))
                 continue;
 
-            if (!contentFilter.isEmpty() && content.toLowerCase(Locale.US).indexOf(contentFilter) == -1)
+            if (!isMatched(contentFilter.trim(), content.toLowerCase(Locale.US)))
                 continue;
 
             new UploadAsyncTask(context).execute(sender, content, url, authHeader);
         }
+    }
+
+    private boolean isMatched(String filters, String content)
+    {
+        if (filters.isEmpty())
+            return true;
+
+        for (String filter: filters.split("\n"))
+            if (!filter.trim().isEmpty() && content.contains(filter.trim()))
+                return true;
+
+        return  false;
     }
 
     private class UploadAsyncTask extends AsyncTask<String, Void, String> {
