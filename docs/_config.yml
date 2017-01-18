@@ -1,0 +1,3 @@
+theme:       jekyll-theme-leap-day
+title:       SMS Relay
+description: SMS Relay forwards incoming SMS to a HTTP server
