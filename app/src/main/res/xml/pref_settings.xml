@@ -1,0 +1,58 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="is_enabled"
+        android:title="@string/pref_title_is_enabled" />
+
+    <PreferenceCategory android:title="@string/pref_group_httpauth">
+    </PreferenceCategory>
+
+    <EditTextPreference
+        android:key="httpauth_username"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_device_name"
+        android:dependency="is_enabled" />
+
+    <EditTextPreference
+        android:key="httpauth_password"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:password="true"
+        android:title="@string/pref_title_device_key"
+        android:dependency="is_enabled" />
+
+    <PreferenceCategory android:title="@string/pref_group_server">
+    </PreferenceCategory>
+
+    <EditTextPreference
+        android:key="url"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_url"
+        android:dependency="is_enabled" />
+
+    <PreferenceCategory android:title="@string/pref_group_filter">
+    </PreferenceCategory>
+
+    <EditTextPreference
+        android:key="sender_filter"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_sender"
+        android:dependency="is_enabled" />
+
+    <EditTextPreference
+        android:key="content_filter"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_content"
+        android:dependency="is_enabled" />
+
+</PreferenceScreen>

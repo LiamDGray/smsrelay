@@ -37,13 +37,13 @@ public class SmsReceiver extends BroadcastReceiver {
         String senderFilter  = preferences.getString("sender_filter",  "").toLowerCase(Locale.US);
         String contentFilter = preferences.getString("content_filter", "").toLowerCase(Locale.US);
         String url           = preferences.getString("url", "");
-        String deviceID      = preferences.getString("device_id", "");
-        String deviceKey     = preferences.getString("device_secret_key", "");
+        String authUsername  = preferences.getString("httpauth_username", "");
+        String authPassword  = preferences.getString("httpauth_password", "");
         String authHeader    = "";
 
-        if (!deviceID.isEmpty() && !deviceKey.isEmpty())
+        if (!authUsername.isEmpty() && !authPassword.isEmpty())
         {
-            byte[] authText = (deviceID + ":" + deviceKey).getBytes();
+            byte[] authText = (authUsername + ":" + authPassword).getBytes();
             authHeader = "Basic "+Base64.encodeToString(authText, Base64.NO_WRAP);
         }
 
@@ -77,7 +77,6 @@ public class SmsReceiver extends BroadcastReceiver {
             String content = params[1];
             String url     = params[2];
             String auth    = params[3];
-
 
             DefaultHttpClient client = new DefaultHttpClient();
             HttpPut          request = new HttpPut(url);
