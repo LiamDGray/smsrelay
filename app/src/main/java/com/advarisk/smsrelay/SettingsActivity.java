@@ -86,6 +86,7 @@ public class SettingsActivity extends PreferenceActivity {
 
             bindPreferenceSummaryToValue(findPreference("httpauth_username"));
             bindPreferenceSummaryToValue(findPreference("url"));
+            bindPreferenceSummaryToValue(findPreference("http_method"));
             bindPreferenceSummaryToValue(findPreference("sender_filter"));
             bindPreferenceSummaryToValue(findPreference("content_filter"));
         }

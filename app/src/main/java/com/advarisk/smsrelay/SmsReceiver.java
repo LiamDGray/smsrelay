@@ -14,6 +14,8 @@ import android.widget.Toast;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -37,6 +39,7 @@ public class SmsReceiver extends BroadcastReceiver {
         String senderFilter  = preferences.getString("sender_filter",  "").toLowerCase(Locale.US);
         String contentFilter = preferences.getString("content_filter", "").toLowerCase(Locale.US);
         String url           = preferences.getString("url", "");
+        String method        = preferences.getString("http_method", "");
         String authUsername  = preferences.getString("httpauth_username", "");
         String authPassword  = preferences.getString("httpauth_password", "");
         String authHeader    = "";
@@ -59,7 +62,7 @@ public class SmsReceiver extends BroadcastReceiver {
             if (!isMatched(contentFilter.trim(), content.toLowerCase(Locale.US)))
                 continue;
 
-            new UploadAsyncTask(context).execute(sender, content, url, authHeader);
+            new UploadAsyncTask(context).execute(sender, content, url, method, authHeader);
         }
     }
 
@@ -88,10 +91,11 @@ public class SmsReceiver extends BroadcastReceiver {
             String sender  = params[0];
             String content = params[1];
             String url     = params[2];
-            String auth    = params[3];
+            String method  = params[3];
+            String auth    = params[4];
 
-            DefaultHttpClient client = new DefaultHttpClient();
-            HttpPut          request = new HttpPut(url);
+            DefaultHttpClient              client  = new DefaultHttpClient();
+            HttpEntityEnclosingRequestBase request = method == "POST" ? new HttpPost(url) : new HttpPut(url);
             if (!auth.isEmpty())
                 request.setHeader("Authorization", auth);
 

@@ -10,6 +10,7 @@
     <string name="pref_title_device_key">Password</string>
     <string name="pref_group_server">Server</string>
     <string name="pref_title_url">Relay to URL</string>
+    <string name="pref_title_httpmethod">HTTP Method</string>
     <string name="pref_group_filter">Filter Messages</string>
     <string name="pref_title_sender">By Sender</string>
     <string name="pref_title_content">By Content</string>
@@ -19,4 +20,9 @@
     <string name="pref_about_version">Version</string>
     <string name="pref_about_website">Website</string>
     <string name="pref_about_license">License</string>
+
+    <string-array name="http_methods">
+        <item>PUT</item>
+        <item>POST</item>
+    </string-array>
 </resources>

@@ -36,6 +36,14 @@
         android:title="@string/pref_title_url"
         android:dependency="is_enabled" />
 
+    <ListPreference
+        android:key="http_method"
+        android:defaultValue="PUT"
+        android:entries="@array/http_methods"
+        android:entryValues="@array/http_methods"
+        android:title="@string/pref_title_httpmethod"
+        android:dependency="is_enabled" />
+
     <PreferenceCategory android:title="@string/pref_group_filter">
     </PreferenceCategory>
 
