@@ -5,6 +5,25 @@
         android:key="is_enabled"
         android:title="@string/pref_title_is_enabled" />
 
+    <PreferenceCategory android:title="@string/pref_group_server">
+    </PreferenceCategory>
+
+    <EditTextPreference
+        android:key="url"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_url"
+        android:dependency="is_enabled" />
+
+    <ListPreference
+        android:key="http_method"
+        android:defaultValue="PUT"
+        android:entries="@array/http_methods"
+        android:entryValues="@array/http_methods"
+        android:title="@string/pref_title_httpmethod"
+        android:dependency="is_enabled" />
+
     <PreferenceCategory android:title="@string/pref_group_httpauth">
     </PreferenceCategory>
 
@@ -23,25 +42,6 @@
         android:singleLine="true"
         android:password="true"
         android:title="@string/pref_title_device_key"
-        android:dependency="is_enabled" />
-
-    <PreferenceCategory android:title="@string/pref_group_server">
-    </PreferenceCategory>
-
-    <EditTextPreference
-        android:key="url"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_url"
-        android:dependency="is_enabled" />
-
-    <ListPreference
-        android:key="http_method"
-        android:defaultValue="PUT"
-        android:entries="@array/http_methods"
-        android:entryValues="@array/http_methods"
-        android:title="@string/pref_title_httpmethod"
         android:dependency="is_enabled" />
 
     <PreferenceCategory android:title="@string/pref_group_filter">
