@@ -1,10 +1,12 @@
 package com.advarisk.smsrelay;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,7 +54,7 @@ public class SmsReceiver extends BroadcastReceiver {
         String authPassword  = preferences.getString("httpauth_password", "");
         String authHeader    = "";
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && canReadPhoneState(context))
             recipient = getRecipientFrom(bundle, context);
 
         if (!authUsername.isEmpty() && !authPassword.isEmpty())
@@ -87,6 +89,15 @@ public class SmsReceiver extends BroadcastReceiver {
                 return true;
 
         return  false;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private boolean canReadPhoneState(Context context)
+    {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return true;
+
+        return context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)

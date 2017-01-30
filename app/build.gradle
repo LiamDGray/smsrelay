@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId "com.advarisk.smsrelay"
         minSdkVersion 17
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 4
         versionName getVersionName()
     }
