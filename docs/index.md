@@ -10,7 +10,7 @@ e.g. ChatOps.
 ## Download
 
 Get it from the [Play Store](https://play.google.com/store/apps/details?id=com.advarisk.smsrelay),
-it is less than 20kB and requires minimal permissions (SMS and Internet).
+it is less than 20kB and requires minimal permissions.
 
 ## Configuration
 
@@ -51,6 +51,12 @@ the message was accepted. The server will receive two parameters:
 
 The `recipient` is available only on Android 5.1 (API 22) and above, it
 will be blank on lower versions due to APIs not being available.
+
+## Privacy
+
+SMS Relay does not use or transmit any information to anyone. It only
+transmits the SMS sender/recipent and content for messages which match
+the filters to the user-specified URL (i.e. one-way communication).
 
 ## Support
 
