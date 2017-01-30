@@ -17,7 +17,7 @@ android {
         applicationId "com.advarisk.smsrelay"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 4
+        versionCode 5
         versionName getVersionName()
     }
     signingConfigs {
