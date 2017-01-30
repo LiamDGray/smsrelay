@@ -43,13 +43,14 @@ specified URL, and return HTTP `403` in case the credentials are incorrect.
 In case the credentials are accepted, return HTTP `200` to indicate that
 the message was accepted. The server will receive two parameters:
 
-| Parameter | Description
-| --------- | ---------------
-| [`sender`](https://developer.android.com/reference/android/telephony/SmsMessage.html#getDisplayOriginatingAddress())  | the phone number if sent from regular phone, or display name if sent from gateway.
-| [`content`](https://developer.android.com/reference/android/telephony/SmsMessage.html#getDisplayMessageBody()) | raw message content.
+| Parameter   | Description
+| ---------   | -----------
+| `sender`    | the phone number if sent from regular phone, or [display name](https://developer.android.com/reference/android/telephony/SmsMessage.html#getDisplayOriginatingAddress()) if sent from gateway.
+| `content`   | raw [message content](https://developer.android.com/reference/android/telephony/SmsMessage.html#getDisplayMessageBody()).
+| `recipient` | recipient [phone number](https://developer.android.com/reference/android/telephony/SubscriptionInfo.html#getNumber()) if available, or the [display name](https://developer.android.com/reference/android/telephony/SubscriptionInfo.html#getDisplayName()).
 
-It is currently not possible to identify the recipent's number in case of
-multi-SIM devices, as this information is not available via standard APIs.
+The `recipient` is available only on Android 5.1 (API 22) and above, it
+will be blank on lower versions due to APIs not being available.
 
 ## Support
 

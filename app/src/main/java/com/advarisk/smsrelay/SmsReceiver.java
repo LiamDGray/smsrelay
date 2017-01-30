@@ -1,13 +1,17 @@
 package com.advarisk.smsrelay;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -29,13 +33,17 @@ public class SmsReceiver extends BroadcastReceiver {
         final Bundle bundle = intent.getExtras();
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (!preferences.getBoolean("is_enabled", false) || bundle == null)
+        if (bundle == null || !bundle.containsKey("pdus"))
+            return;
+
+        if (!preferences.getBoolean("is_enabled", false) || preferences.getString("url", "").isEmpty())
             return;
 
         final Object[] pdusArray = (Object[]) bundle.get("pdus");
         if (pdusArray == null || pdusArray.length == 0)
             return;
 
+        String recipient     = "";
         String senderFilter  = preferences.getString("sender_filter",  "").toLowerCase(Locale.US);
         String contentFilter = preferences.getString("content_filter", "").toLowerCase(Locale.US);
         String url           = preferences.getString("url", "");
@@ -43,6 +51,9 @@ public class SmsReceiver extends BroadcastReceiver {
         String authUsername  = preferences.getString("httpauth_username", "");
         String authPassword  = preferences.getString("httpauth_password", "");
         String authHeader    = "";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+            recipient = getRecipientFrom(bundle, context);
 
         if (!authUsername.isEmpty() && !authPassword.isEmpty())
         {
@@ -62,7 +73,7 @@ public class SmsReceiver extends BroadcastReceiver {
             if (!isMatched(contentFilter.trim(), content.toLowerCase(Locale.US)))
                 continue;
 
-            new UploadAsyncTask(context).execute(sender, content, url, method, authHeader);
+            new UploadAsyncTask(context).execute(sender, content, recipient, url, method, authHeader);
         }
     }
 
@@ -78,6 +89,22 @@ public class SmsReceiver extends BroadcastReceiver {
         return  false;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+    private String getRecipientFrom(Bundle bundle, Context context)
+    {
+        int subId = bundle.getInt("subscription", -1);
+
+        SubscriptionManager manager = SubscriptionManager.from(context);
+        if (subId == -1 || manager.getActiveSubscriptionInfo(subId) == null)
+            return bundle.containsKey("slot") ? "sim-"+(1+bundle.getInt("slot")) : "";
+
+        SubscriptionInfo sub = manager.getActiveSubscriptionInfo(subId);
+        if (sub.getNumber() != null && !sub.getNumber().trim().isEmpty())
+            return sub.getNumber().trim();
+
+        return sub.getDisplayName().toString().trim();
+    }
+
     private class UploadAsyncTask extends AsyncTask<String, Void, String> {
         private Context context;
 
@@ -88,11 +115,12 @@ public class SmsReceiver extends BroadcastReceiver {
 
         @Override
         protected String doInBackground(String... params) {
-            String sender  = params[0];
-            String content = params[1];
-            String url     = params[2];
-            String method  = params[3];
-            String auth    = params[4];
+            String sender    = params[0];
+            String content   = params[1];
+            String recipient = params[2];
+            String url       = params[3];
+            String method    = params[4];
+            String auth      = params[5];
 
             DefaultHttpClient              client  = new DefaultHttpClient();
             HttpEntityEnclosingRequestBase request = method == "POST" ? new HttpPost(url) : new HttpPut(url);
@@ -100,8 +128,9 @@ public class SmsReceiver extends BroadcastReceiver {
                 request.setHeader("Authorization", auth);
 
             ArrayList<NameValuePair> data = new ArrayList<NameValuePair>(2);
-            data.add(new BasicNameValuePair("sender",  sender));
-            data.add(new BasicNameValuePair("content", content));
+            data.add(new BasicNameValuePair("sender",    sender));
+            data.add(new BasicNameValuePair("content",   content));
+            data.add(new BasicNameValuePair("recipient", recipient));
             try {
                 request.setEntity(new UrlEncodedFormEntity(data));
                 HttpResponse response = client.execute(request);
